@@ -1,0 +1,24 @@
+
+.main-404-container {
+    min-height: 70vh;
+}
+
+.main-404-container p {
+    max-width: 420px;
+}
+
+.main-404-container .return-link {
+    background-color: #F2A65A;
+    color: #1f2328;
+    padding: 10px;
+    font-size: 24px;
+}
+
+.main-404-container .return-link:hover {
+    border: 1px solid #0c0c0c;
+    color:#F2A65A;
+}
+
+
+
+

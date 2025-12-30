@@ -1,0 +1,17 @@
+
+.login-page {
+    min-height: calc(100vh - 100px);
+    background-color: #0c0c0c;
+}
+
+.login-page .login-box {
+    width: 400px;
+    background-color: #FFFFFF;
+    padding: 32px;
+    border-radius: 12px;
+}
+
+.login-box .login-btn {
+    background-color: #F2A65A ;
+    color: #1f2328 ;
+}

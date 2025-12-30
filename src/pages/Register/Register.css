@@ -1,0 +1,11 @@
+.register-page {
+    min-height: calc(100vh - 100px);
+    background-color: #0c0c0c;
+}
+
+.register-box {
+    width: 400px;
+    background-color: #FFFFFF;
+    padding: 32px;
+    border-radius: 12px;
+}

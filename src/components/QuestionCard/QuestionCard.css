@@ -1,0 +1,9 @@
+.question-btn-group .question-scroll-btn {
+    background-color: #F2A65A;
+    color: #FFFFFF;
+}
+
+.question-btn-group .question-scroll-btn:hover {
+    background-color: #F5793B;
+    color: #FFFFFF;
+}

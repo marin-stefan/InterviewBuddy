@@ -1,0 +1,16 @@
+
+footer {
+    background-color: #0c0c0c;
+    color: #c7d2fe;
+    padding-top: 5px;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+li a {
+    text-decoration: none;
+    color: #c7d2fe;
+}
+
