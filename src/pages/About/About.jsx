@@ -4,14 +4,14 @@ import "./About.css";
 export default function About() {
     return (
         <Layout>
-            <div className="container my-5 shadow about-main pb-3 overflow-hidden">
-                <header className="mb-5 text-center">
+            <div className="container my-5 shadow about-main pb-3">
+                <div className="mb-5 text-center">
                     <h1 className="fw-bold">About InterviewBuddy</h1>
                     <p className="text-muted mt-2">
                         A focused platform for preparing for real-world software
                         interviews.
                     </p>
-                </header>
+                </div>
                 <section className="mb-5">
                     <h2 className="mb-3">The Project</h2>
                     <p>
