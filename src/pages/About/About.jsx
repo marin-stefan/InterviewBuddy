@@ -4,7 +4,7 @@ import "./About.css";
 export default function About() {
     return (
         <Layout>
-            <div className="container my-5 shadow about-main pb-3">
+            <div className="container my-5 shadow rounded about-main pb-3 pt-5">
                 <div className="mb-5 text-center">
                     <h1 className="fw-bold">About InterviewBuddy</h1>
                     <p className="text-muted mt-2">

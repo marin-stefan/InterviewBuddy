@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 export default function Footer() {
     return (
         <footer className="mt-auto">
-            <div className="container d-flex flex-wrap justify-content-between align-items-center">
+            <div className="container footer-box d-flex">
                 <div>
                     <ul>
                         <li><p>Marin Stefan Daniel</p></li>
                         <li><p>Interview Buddy - React 19.2</p></li>
-                        <li>ItSchool course @2026 - all rights reserved</li>
+                        <li><p>ItSchool course @2026 - all rights reserved</p></li>
                     </ul>
                 </div>
                 <div>
