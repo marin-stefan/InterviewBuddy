@@ -1,9 +1,31 @@
-.question-btn-group .question-scroll-btn {
-    background-color: #F2A65A;
-    color: #FFFFFF;
+
+.answer-wrapper {
+    position: relative;
 }
 
-.question-btn-group .question-scroll-btn:hover {
-    background-color: #F5793B;
-    color: #FFFFFF;
+.answer-content {
+    filter: blur(6px);
+}
+
+.answer-wrapper.revealed .answer-content {
+    filter: none;
+}
+
+.answer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.question-btns {
+    min-width: 155px;
+}
+
+.tab-pane {
+    padding: none;
 }

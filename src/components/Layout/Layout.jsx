@@ -6,7 +6,7 @@ export default function Layout(props) {
     return (
         <div className="layout">
             <Header />
-            <main className="d-flex flex-column justify-content-center flex-fill">{props.children}</main>
+            <main className="d-flex flex-column flex-fill ">{props.children}</main>
             <Footer />
         </div>
     );

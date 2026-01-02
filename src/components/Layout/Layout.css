@@ -4,3 +4,23 @@
     min-height: 100vh ;
 }
 
+.layout main {
+    height: 250px;
+    overflow-y: scroll;
+}
+
+@media (min-width: 768px) {
+    .layout main {
+        height: 400px;
+    }
+
+    .layout main {
+        justify-content: center;
+    }
+}
+
+@media (min-width: 992px) {
+    .layout main {
+        height: 600px;
+    }
+}
