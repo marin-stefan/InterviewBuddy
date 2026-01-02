@@ -5,13 +5,8 @@ import LogoImage from "../../assets/interviewBuddy.png";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-    const isLogged = true;
+    const isLogged = false;
     const navigate = useNavigate();
-
-    function logoutUser() {
-        // logout logic pun aici
-        navigate("/", {repalce: true})
-    }
 
     return (
         <header>
@@ -61,34 +56,50 @@ export default function Header() {
                                         </Dropdown.Item>
                                         <Dropdown.Item
                                             as={Link}
-                                            to="/category/javascript"
+                                            to="/category/react"
                                         >
                                             <span className="drop-option">
                                                 React
                                             </span>
                                         </Dropdown.Item>
+                                        <Dropdown.Item
+                                            as={Link}
+                                            to="/category/html"
+                                        >
+                                            <span className="drop-option">
+                                                HTML
+                                            </span>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            as={Link}
+                                            to="/category/css"
+                                        >
+                                            <span className="drop-option">
+                                                CSS
+                                            </span>
+                                        </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </li>
-                            <li className="nav-item">
-                                <Link to="/user" className="nav-link">
-                                    <span>stefann06</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item ms-lg-3">
-                                <div className="log-btn">
-                                    {isLogged && (
-                                        <button className="btn btn-s log-btn btn-outline-light" onClick={logoutUser}>
-                                            Log Out
-                                        </button>
-                                    )}
-                                    {!isLogged && (
-                                        <button className="btn btn-s log-btn btn-outline-light">
-                                            Login
-                                        </button>
-                                    )}
-                                </div>
-                            </li>
+                            {isLogged && (
+                                <li className="nav-item">
+                                    <Link to="/user" className="nav-link">
+                                        <span>stefann06</span>
+                                    </Link>
+                                </li>
+                            )}
+                            {!isLogged && (
+                                <li className="nav-item ms-lg-3">
+                                    <div className="log-btn">
+                                        <Link
+                                            to="/login"
+                                            className="btn btn-s log-btn btn-outline-light"
+                                        >
+                                            Log In
+                                        </Link>
+                                    </div>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>
