@@ -5,7 +5,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import About from "./pages/About/About";
 import User from "./pages/User/User";
-import JavascriptPage from "./pages/JavascriptPage/JavascriptPage";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 
 const routes = createBrowserRouter([
@@ -35,8 +35,20 @@ const routes = createBrowserRouter([
         element: <User />,
     },
     {
-        path: "/category/javascript",
-        element: <JavascriptPage />,
+        path: "/category/:categoryId",
+        element: <CategoryPage />,
+
+        // maybe here:
+        // {
+        //     path: "/category/:categoryId",
+        //     element: <CategoryPage />,
+        //     children: [
+        //         { index: true, element: <AllQuestions /> },
+        //         { path: "favorites", element: <Favorites /> },
+        //         { path: "review", element: <NeedsReview /> }
+        //     ]
+        // }
+
     },
 ]);
 
