@@ -1,0 +1,6 @@
+.favorites-box {
+    display: flex;
+    background-color: pink;
+    flex-grow: 1;
+    height: 300px;
+}
