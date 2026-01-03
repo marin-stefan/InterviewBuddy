@@ -2,11 +2,11 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import LogoImage from "../../assets/interviewBuddy.png";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-    const isLogged = false;
-    const navigate = useNavigate();
+    const isLogged = true;
+    // const navigate = useNavigate();
 
     return (
         <header>

@@ -140,7 +140,7 @@ export default function User() {
                 </Accordion>
             </div>
 
-            <div className="d-none d-md-block container my-5 border rounded shadow h-100 pt-2">
+            <div className="d-none d-md-block container my-5 rounded shadow h-100 pt-2">
                 <Tabs
                     defaultActiveKey="info"
                     transition={false}
