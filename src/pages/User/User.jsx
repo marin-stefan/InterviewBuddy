@@ -57,6 +57,9 @@ export default function User() {
                                 </div>
                             </section>
                             <section className="text-center mt-5">
+                                Change pass here!! must design
+                            </section>
+                            <section className="text-center mt-5">
                                 <div className="mb-2">
                                     <img
                                         src={Avatar}
@@ -163,7 +166,12 @@ export default function User() {
                                 </div>
                             </div>
                         </section>
-                        <section className="mb-2 text-center">
+                        <div className="d-flex justify-content-around">
+                            <section className="text-center mt-5">
+                                Change pass here!! must design
+                            </section>
+                            <div>
+                                <section className="mb-2 text-center">
                             <div className="mb-3">
                                 <img
                                     src={Avatar}
@@ -181,6 +189,10 @@ export default function User() {
                                 Log out
                             </button>
                         </section>
+                            </div>
+                        </div>
+
+                        
                     </Tab>
                     <Tab eventKey="statistics" title="Statistics">
                         <section className="mb-4 p-4 shadow-sm rounded bg-white">
