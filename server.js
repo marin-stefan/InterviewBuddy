@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
@@ -19,10 +20,14 @@ mongoose
     })
     .catch((error) => console.log(error));
 
-
+app.use(cors()); - //dev only allow all 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/user', userRoutes); // sau aici si tot API face /api/blabla sa nu avem conflict de rute ca e aceiasi app si fe si be
+app.use('/api/user', userRoutes); // sau aici si tot API face /api/blabla sa nu avem conflict de rute ca e aceiasi app si fe si be
+
+
+
+
 
 
 
@@ -30,10 +35,8 @@ app.get("/", (req, res) => {
     res.send("hello from the other side");
 });
 
-
-
 //get all users
-app.get('/users', async(req, res) => {
+app.get('/api/users', async(req, res) => {
     try {
         const users = await User.find({});
         res.status(200).json((users))
