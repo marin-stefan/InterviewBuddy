@@ -4,10 +4,11 @@ import Header from "../../components/Header/Header";
 import "./Login.css";
 
 export default function Login() {
-    const [formData, setFormData] = useState({
+    const emptyForm = {
         username: "",
         password: "",
-    });
+    };
+    const [formData, setFormData] = useState(emptyForm);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
