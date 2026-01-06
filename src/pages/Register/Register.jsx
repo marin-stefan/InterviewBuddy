@@ -2,29 +2,61 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Register.css";
 import Header from "../../components/Header/Header";
+import { useRequest } from "../../api/useRequest";
+import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 export default function Register() {
-    const [formData, setFormData] = useState({
-        fullName: "",
+    const navigate = useNavigate();
+    const emptyForm = {
+        name: "",
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
-    });
+    };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const { sendRequest, error } = useRequest("http://localhost:3000/api/user");
+    const [formData, setFormData] = useState(emptyForm);
+    const [passwordError, setPasswordError] = useState("");
+    const [showModal, setShowModal] = useState(false);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
+
+        if (name === "confirmPassword" || name === "password") {
+            if (formData.password && value !== formData.password) {
+                setPasswordError("Passwords do not match");
+            } else {
+                setPasswordError("");
+            }
+        }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-        // TODO: add validation and API integration
-        console.log("Register attempt:", formData);
+        // Reset error
+        setPasswordError("");
+
+        // Check if passwords match
+        if (formData.password !== formData.confirmPassword) {
+            setPasswordError("Passwords do not match");
+            return; // stop submission
+        }
+
+        try {
+            sendRequest(formData, { method: "POST" });
+            setFormData(emptyForm);
+            setShowModal(true);
+            // navigate("/login");
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -43,10 +75,10 @@ export default function Register() {
                             </label>
                             <input
                                 type="text"
-                                id="fullName"
-                                name="fullName"
+                                id="name"
+                                name="name"
                                 className="form-control"
-                                value={formData.fullName}
+                                value={formData.name}
                                 onChange={handleChange}
                                 required
                             />
@@ -117,6 +149,11 @@ export default function Register() {
                                 onChange={handleChange}
                                 required
                             />
+                            {passwordError && (
+                                <small className="text-danger">
+                                    {passwordError}
+                                </small>
+                            )}
                         </div>
 
                         {/* Submit */}
@@ -141,6 +178,14 @@ export default function Register() {
                     </div>
                 </div>
             </div>
+            <ConfirmationModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                heading="Registration Succesfull"
+                title="Welcome !"
+                body="Thank you for registering, please log in to continue."
+                redirectto="/login"
+            />
         </div>
     );
 }
