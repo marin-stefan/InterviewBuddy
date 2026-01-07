@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const {createUser, updateUserById, deleteUserById, getUserById} = require('../controllers/userController');
+const {createUser, loginUser, updateUserById, deleteUserById, getUserById} = require('../controllers/userController');
 
 router.post('/', createUser); //insert user to db
+
+router.post('/login', loginUser) // login for user
 
 router.get('/:id', getUserById); //get one user by id
 

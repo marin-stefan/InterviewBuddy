@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const bcrypt = require("bcrypt");
 
 const createUser = async (req, res) => {
     try {
@@ -15,6 +16,38 @@ const getUserById = async (req, res) => {
         const { id } = req.params;
         const user = await User.findById(id);
         res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const loginUser = async (req, res) => {
+    try {
+        console.log(req.body);
+        const { email, password } = req.body;
+
+        // 1. Find user and explicitly include password
+        const user = await User.findOne({ email }).select("+password");
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        // 2. Compare plaintext password to stored hash
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        // 3. Success (JWT will go here later)
+        res.status(200).json({
+            message: "Login successful",
+            user: {
+                id: user._id,
+                email: user.email,
+            },
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -38,20 +71,28 @@ const updateUserById = async (req, res) => {
     }
 };
 
-const deleteUserById = async(req, res) => {
+const deleteUserById = async (req, res) => {
     try {
-        const {id} =  req.params;
+        const { id } = req.params;
         const user = await User.findByIdAndDelete(id);
 
         //if we can't find in bd
-        if(!user) {
-            return res.status(404).json({message: `Can't find any user with ID ${id}`})
+        if (!user) {
+            return res
+                .status(404)
+                .json({ message: `Can't find any user with ID ${id}` });
         }
 
-        res.status(200).json(user)
+        res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({message: error.mesage})
+        res.status(500).json({ message: error.mesage });
     }
-}
+};
 
-module.exports = {createUser, updateUserById, getUserById, deleteUserById};
+module.exports = {
+    createUser,
+    loginUser,
+    updateUserById,
+    getUserById,
+    deleteUserById,
+};

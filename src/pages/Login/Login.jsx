@@ -2,27 +2,34 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Login.css";
+import { useRequest } from "../../api/useRequest";
 
 export default function Login() {
     const emptyForm = {
-        username: "",
+        email: "",
         password: "",
     };
     const [formData, setFormData] = useState(emptyForm);
+    const { sendRequest, error } = useRequest("http://localhost:3000/api/user/login");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const handleChange = (event) => {
+        const { name, value } = event.target;
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-        // TODO: replace with real authentication logic
-        console.log("Login attempt:", formData);
+        // console.log("Login attempt:", formData);
+        try {
+            sendRequest(formData, { method: "POST" });
+            setFormData(emptyForm);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -34,15 +41,15 @@ export default function Login() {
 
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="username" className="form-label">
-                                Username
+                            <label htmlFor="email" className="form-label">
+                                Email address
                             </label>
                             <input
-                                type="text"
-                                id="username"
-                                name="username"
+                                type="email"
+                                id="email"
+                                name="email"
                                 className="form-control"
-                                value={formData.username}
+                                value={formData.email}
                                 onChange={handleChange}
                                 required
                             />
