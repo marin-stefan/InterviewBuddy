@@ -11,6 +11,7 @@
         "serve": "nodemon server.js"
     },
     "dependencies": {
+        "bcrypt": "^6.0.0",
         "bootstrap": "^5.3.8",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",

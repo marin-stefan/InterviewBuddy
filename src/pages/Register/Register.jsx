@@ -3,14 +3,11 @@ import { useState } from "react";
 import "./Register.css";
 import Header from "../../components/Header/Header";
 import { useRequest } from "../../api/useRequest";
-import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 export default function Register() {
-    const navigate = useNavigate();
     const emptyForm = {
         name: "",
-        username: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -40,20 +37,16 @@ export default function Register() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Reset error
         setPasswordError("");
-
-        // Check if passwords match
         if (formData.password !== formData.confirmPassword) {
             setPasswordError("Passwords do not match");
-            return; // stop submission
+            return;
         }
 
         try {
             sendRequest(formData, { method: "POST" });
             setFormData(emptyForm);
             setShowModal(true);
-            // navigate("/login");
         } catch (error) {
             console.log(error);
         }
@@ -85,7 +78,7 @@ export default function Register() {
                         </div>
 
                         {/* Username */}
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                             <label htmlFor="username" className="form-label">
                                 Username
                             </label>
@@ -98,7 +91,7 @@ export default function Register() {
                                 onChange={handleChange}
                                 required
                             />
-                        </div>
+                        </div> */}
 
                         {/* Email */}
                         <div className="mb-3">
