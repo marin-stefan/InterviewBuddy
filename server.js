@@ -23,7 +23,7 @@ mongoose
 app.use(cors()); - //dev only allow all 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/api/user', userRoutes); // sau aici si tot API face /api/blabla sa nu avem conflict de rute ca e aceiasi app si fe si be
+app.use('/api/user', userRoutes);
 
 
 

@@ -7,6 +7,9 @@ import About from "./pages/About/About";
 import User from "./pages/User/User";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
+import { UserContext } from "./store/User/context";
+import { UserReducer, userInitialState } from "./store/User/reducer";
+import { useReducer } from "react";
 
 const routes = createBrowserRouter([
     {
@@ -24,7 +27,7 @@ const routes = createBrowserRouter([
     },
     {
         path: "/recoverpassword",
-        element: <RecoverPassword />
+        element: <RecoverPassword />,
     },
     {
         path: "/about",
@@ -48,15 +51,19 @@ const routes = createBrowserRouter([
         //         { path: "review", element: <NeedsReview /> }
         //     ]
         // }
-
     },
 ]);
 
 function App() {
+    const [userState, userDispatch] = useReducer(UserReducer, userInitialState);
+    const userContextValue = { userState, userDispatch };
+
     return (
-        <div className="App">
-            <RouterProvider router={routes} />
-        </div>
+        <UserContext.Provider value={userContextValue}>
+            <div className="App">
+                <RouterProvider router={routes} />
+            </div>
+        </UserContext.Provider>
     );
 }
 
