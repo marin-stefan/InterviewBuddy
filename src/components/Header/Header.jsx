@@ -7,8 +7,8 @@ import { UserContext } from "../../store/user/context";
 
 export default function Header() {
     const { userState, userDispatch } = useContext(UserContext);
-    let isLogged = userState.loggedUser
-
+    let isLogged = userState.loggedUser;
+    
     return (
         <header>
             <nav className="navbar navbar-expand-lg">
@@ -85,7 +85,7 @@ export default function Header() {
                             {isLogged && (
                                 <li className="nav-item">
                                     <Link to="/user" className="nav-link">
-                                        <span>stefann06</span>
+                                        <span className="text-light">{userState.loggedUser.email}</span>
                                     </Link>
                                 </li>
                             )}

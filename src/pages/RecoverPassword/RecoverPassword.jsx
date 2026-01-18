@@ -50,6 +50,10 @@ export default function RecoverPassword() {
                         <button
                             type="submit"
                             className="btn w-100 mt-2 recovery-btn"
+                            style={{
+                                backgroundColor: "#F2A65A",
+                                color: "#1f2328",
+                            }}
                         >
                             Reset Password
                         </button>
