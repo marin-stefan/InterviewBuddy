@@ -10,6 +10,7 @@ import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 import { userInitialState, userReducer } from "./store/user/reducer";
 import { UserContext } from "./store/user/context";
 import { useReducer } from "react";
+import { AuthProvider } from "./store/auth/authContext";
 
 const routes = createBrowserRouter([
     {
@@ -52,9 +53,11 @@ function App() {
 
     return (
         <UserContext.Provider value={userContextValue}>
-            <div className="App">
-                <RouterProvider router={routes} />
-            </div>
+            <AuthProvider>
+                <div className="App">
+                    <RouterProvider router={routes} />
+                </div>
+            </AuthProvider>
         </UserContext.Provider>
     );
 }

@@ -6,15 +6,17 @@ import QuestionCard from "../../components/QuestionCard/QuestionCard";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
+import { UserContext } from "../../store/user/context";
 
 export default function CategoryPage() {
+    const { userState, userDispatch } = useContext(UserContext);
+        let isLogged = userState.loggedUser;
+
     const { categoryId } = useParams();
     const questions = getQuestions(categoryId);
     const categories = getCategories();
-    const isLogged = false; // aici punem in functie de e loggat
-    // const [currentIndex, setCurrentIndex] = useState();
 
     return (
         <Layout>
@@ -74,6 +76,7 @@ export default function CategoryPage() {
                             category={categories[categoryId]}
                         />
                     </Tab>
+                    {}
                     <Tab eventKey="review" title="Review" disabled={!isLogged}>
                         <QuestionCard
                             question={questions[0]}

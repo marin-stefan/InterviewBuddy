@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
-    console.log("be create")
     try {
         const user = await User.create(req.body);
         res.status(200).json(user);
@@ -24,17 +23,11 @@ const getUserById = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-    try {
-        const user = await User.findById(req.user.userId).select("-password");
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    if (!req.user) {
+        return res.status(401).json({ message: "Not authenticated" });
     }
+
+    res.status(200).json(req.user);
 };
 
 const loginUser = async (req, res) => {
@@ -56,11 +49,9 @@ const loginUser = async (req, res) => {
         }
 
         // 3. Success (+ create jwt
-        const token = jwt.sign(
-            { userId: user._id },
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
-        );
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN,
+        });
 
         //4. send token + info
         res.status(200).json({
@@ -69,7 +60,7 @@ const loginUser = async (req, res) => {
                 id: user._id,
                 email: user.email,
             },
-            token: token
+            token: token,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

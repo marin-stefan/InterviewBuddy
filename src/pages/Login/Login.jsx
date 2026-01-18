@@ -14,6 +14,7 @@ export default function Login() {
     const [formData, setFormData] = useState(emptyForm);
     const navigate = useNavigate();
     const { userDispatch } = useContext(UserContext);
+    const [authError, setAuthError] = useState(null);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -26,7 +27,6 @@ export default function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log("1login user");
         try {
             const response = await fetch(
                 "http://localhost:3000/api/user/login",
@@ -42,18 +42,14 @@ export default function Login() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("2Login successful:", data);
-                // Save JWT to localStorage
-                localStorage.setItem("token", data.token);
-                // update app state here for loggedUser and redirect to home after
-
-                
+                localStorage.setItem("auth_token", data.token);
                 const actionResult = loginUser(data);
                 userDispatch(actionResult);
-
-                // navigate('/');
+                setAuthError(null);
+                navigate("/");
             } else {
                 console.error("Login failed:", data.message || data);
+                setAuthError(data.message || data);
             }
         } catch (error) {
             console.error("Error:", error);
@@ -95,10 +91,19 @@ export default function Login() {
                                 onChange={handleChange}
                                 required
                             />
+                            {authError && (
+                                <small className="text-danger">
+                                    {authError}
+                                </small>
+                            )}
                         </div>
                         <button
                             type="submit"
                             className="btn w-100 mt-2 login-btn"
+                            style={{
+                                backgroundColor: "#F2A65A",
+                                color: "#1f2328",
+                            }}
                         >
                             Log In
                         </button>
