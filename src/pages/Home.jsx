@@ -1,8 +1,5 @@
 import Layout from "../components/Layout/Layout";
-import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import JsImage from "../assets/js48.svg";
 import Carousel from "react-bootstrap/Carousel";
 import Home1 from "../assets/home1.png";
 import Home2 from "../assets/home2.png";

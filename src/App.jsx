@@ -7,9 +7,6 @@ import About from "./pages/About/About";
 import User from "./pages/User/User";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
-import { UserContext } from "./store/User/context";
-import { UserReducer, userInitialState } from "./store/User/reducer";
-import { useReducer } from "react";
 
 const routes = createBrowserRouter([
     {
@@ -55,15 +52,10 @@ const routes = createBrowserRouter([
 ]);
 
 function App() {
-    const [userState, userDispatch] = useReducer(UserReducer, userInitialState);
-    const userContextValue = { userState, userDispatch };
-
     return (
-        <UserContext.Provider value={userContextValue}>
-            <div className="App">
-                <RouterProvider router={routes} />
-            </div>
-        </UserContext.Provider>
+        <div className="App">
+            <RouterProvider router={routes} />
+        </div>
     );
 }
 

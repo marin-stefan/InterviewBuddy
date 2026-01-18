@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Register.css";
 import Header from "../../components/Header/Header";
-import { useRequest } from "../../api/useRequest";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 export default function Register() {
@@ -13,7 +12,6 @@ export default function Register() {
         confirmPassword: "",
     };
 
-    const { sendRequest, error } = useRequest("http://localhost:3000/api/user");
     const [formData, setFormData] = useState(emptyForm);
     const [passwordError, setPasswordError] = useState("");
     const [showModal, setShowModal] = useState(false);
@@ -43,13 +41,7 @@ export default function Register() {
             return;
         }
 
-        try {
-            sendRequest(formData, { method: "POST" });
-            setFormData(emptyForm);
-            setShowModal(true);
-        } catch (error) {
-            console.log(error);
-        }
+        console.log("register user");
     };
 
     return (
@@ -76,22 +68,6 @@ export default function Register() {
                                 required
                             />
                         </div>
-
-                        {/* Username */}
-                        {/* <div className="mb-3">
-                            <label htmlFor="username" className="form-label">
-                                Username
-                            </label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                className="form-control"
-                                value={formData.username}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div> */}
 
                         {/* Email */}
                         <div className="mb-3">

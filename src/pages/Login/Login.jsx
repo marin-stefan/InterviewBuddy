@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Login.css";
-import { useRequest } from "../../api/useRequest";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const emptyForm = {
@@ -10,7 +10,7 @@ export default function Login() {
         password: "",
     };
     const [formData, setFormData] = useState(emptyForm);
-    const { sendRequest, error } = useRequest("http://localhost:3000/api/user/login");
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -20,16 +20,10 @@ export default function Login() {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // console.log("Login attempt:", formData);
-        try {
-            sendRequest(formData, { method: "POST" });
-            setFormData(emptyForm);
-        } catch (error) {
-            console.log(error);
-        }
+        console.log("login user");
     };
 
     return (

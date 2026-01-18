@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap";
 import LogoImage from "../../assets/interviewBuddy.png";
 
 export default function Header() {
-    const isLogged = true;
+    let isLogged = false; // tempo value
 
     return (
         <header>

@@ -13,7 +13,6 @@ import { ListGroupItem } from "react-bootstrap";
 export default function User() {
     const favoritesQuestions = getQuestions("favorites");
     const categories = getCategories();
-    console.log(favoritesQuestions);
 
     // for pagination
     let active = 2;
