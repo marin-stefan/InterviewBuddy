@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../store/user/context";
+import { loginUser } from "../../store/user/actions";
 
 export default function Login() {
     const emptyForm = {
@@ -11,6 +13,7 @@ export default function Login() {
     };
     const [formData, setFormData] = useState(emptyForm);
     const navigate = useNavigate();
+    const { userDispatch } = useContext(UserContext);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -23,7 +26,38 @@ export default function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log("login user");
+        console.log("1login user");
+        try {
+            const response = await fetch(
+                "http://localhost:3000/api/user/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                },
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("2Login successful:", data);
+                // Save JWT to localStorage
+                localStorage.setItem("token", data.token);
+                // update app state here for loggedUser and redirect to home after
+
+                
+                const actionResult = loginUser(data);
+                userDispatch(actionResult);
+
+                // navigate('/');
+            } else {
+                console.error("Login failed:", data.message || data);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     return (

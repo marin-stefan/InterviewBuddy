@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
+    console.log("be create")
     try {
         const user = await User.create(req.body);
         res.status(200).json(user);
@@ -68,6 +69,7 @@ const loginUser = async (req, res) => {
                 id: user._id,
                 email: user.email,
             },
+            token: token
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

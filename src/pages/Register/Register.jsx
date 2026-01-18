@@ -42,6 +42,28 @@ export default function Register() {
         }
 
         console.log("register user");
+        try {
+            const response = await fetch("http://localhost:3000/api/user/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("User registered:", data);
+                setFormData(emptyForm);
+                setShowModal(true);
+                // You can redirect or clear form here
+            } else {
+                console.error("Registration failed:", data.message || data);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     return (
