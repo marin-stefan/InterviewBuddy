@@ -1,5 +1,6 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
     try {
@@ -21,9 +22,22 @@ const getUserById = async (req, res) => {
     }
 };
 
+const getCurrentUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId).select("-password");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const loginUser = async (req, res) => {
     try {
-        console.log(req.body);
         const { email, password } = req.body;
 
         // 1. Find user and explicitly include password
@@ -40,7 +54,14 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        // 3. Success (JWT will go here later)
+        // 3. Success (+ create jwt
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN }
+        );
+
+        //4. send token + info
         res.status(200).json({
             message: "Login successful",
             user: {
@@ -91,6 +112,7 @@ const deleteUserById = async (req, res) => {
 
 module.exports = {
     createUser,
+    getCurrentUser,
     loginUser,
     updateUserById,
     getUserById,
