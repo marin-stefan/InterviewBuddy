@@ -11,6 +11,7 @@ import { userInitialState, userReducer } from "./store/user/reducer";
 import { UserContext } from "./store/user/context";
 import { useReducer } from "react";
 import { AuthProvider } from "./store/auth/authContext";
+import { ProtectedRoute, PublicOnlyRoute } from "./utils/ProtectedRoute";
 
 const routes = createBrowserRouter([
     {
@@ -19,24 +20,34 @@ const routes = createBrowserRouter([
         errorElement: <Page404 />,
     },
     {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
-    },
-    {
-        path: "/recoverpassword",
-        element: <RecoverPassword />,
+        element: <PublicOnlyRoute />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
+            {
+                path: "/recoverpassword",
+                element: <RecoverPassword />,
+            },
+        ],
     },
     {
         path: "/about",
         element: <About />,
     },
     {
-        path: "/user",
-        element: <User />,
+        element: <ProtectedRoute />,
+        children: [
+            {
+                path: "/user",
+                element: <User />,
+            },
+        ],
     },
     {
         path: "/category/:categoryId",
