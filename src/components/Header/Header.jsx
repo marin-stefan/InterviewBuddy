@@ -84,7 +84,7 @@ export default function Header() {
                             </li>
                             {isLogged && (
                                 <li className="nav-item">
-                                    <Link to="/user" className="nav-link">
+                                    <Link to="/dashboard" className="nav-link">
                                         <span className="text-light">{userState.loggedUser.email}</span>
                                     </Link>
                                 </li>

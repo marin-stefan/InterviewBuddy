@@ -18,6 +18,18 @@ export function userReducer(state, action) {
             return newState;
         }
 
+        case 'LOGOUT_USER': {
+            let newState;
+
+            newState = {
+                ...state,
+                loggedUser: null,
+                token: null
+            }
+
+            return newState;
+        }
+
         default:
             return state;
     }

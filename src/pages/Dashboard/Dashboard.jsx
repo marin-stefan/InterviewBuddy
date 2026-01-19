@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout/Layout";
-import "./User.css";
+import "./Dashboard.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
@@ -9,10 +9,15 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { getQuestions } from "../../api/endpoint";
 import { getCategories } from "../../api/categories";
 import { ListGroupItem } from "react-bootstrap";
+import { useContext } from "react";
+import { UserContext } from "../../store/user/context";
+import { logoutUser } from "../../store/user/actions";
 
 export default function User() {
     const favoritesQuestions = getQuestions("favorites");
     const categories = getCategories();
+
+    const { userState, userDispatch } = useContext(UserContext);
 
     // for pagination
     let active = 2;
@@ -21,12 +26,30 @@ export default function User() {
         items.push(
             <Pagination.Item key={number} active={number === active}>
                 {number}
-            </Pagination.Item>
+            </Pagination.Item>,
         );
     }
 
     function launchFavorites(event) {
         console.log(event.target);
+    }
+
+    function handleLogoutUser() {
+        localStorage.removeItem("auth_token");
+        const actionResult = logoutUser();
+        userDispatch(actionResult);
+    }
+
+    function joinedAt() {
+        const date = new Date(userState.loggedUser.createdAt);
+        const year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        if (month < 10) {
+            month = `0${month}`;
+        }
+        console.log(year, month);
+
+        return `${month}-${year}`;
     }
 
     return (
@@ -43,15 +66,15 @@ export default function User() {
                                 <div className="row g-3">
                                     <div className="col-12 col-sm-6">
                                         <small className="text-muted">
-                                            Username
+                                            {userState.loggedUser.name}
                                         </small>
-                                        <div>johndoe</div>
+                                        <div>{userState.loggedUser.email}</div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <small className="text-muted">
                                             Joined
                                         </small>
-                                        <div>Jan 2024</div>
+                                        <div>{joinedAt()}</div>
                                     </div>
                                 </div>
                             </section>
@@ -68,7 +91,10 @@ export default function User() {
                                         height="92"
                                     />
                                 </div>
-                                <button className="btn btn-outline-danger px-5">
+                                <button
+                                    className="btn btn-outline-danger px-5"
+                                    onClick={handleLogoutUser}
+                                >
                                     Log out
                                 </button>
                             </section>
@@ -155,13 +181,13 @@ export default function User() {
                             <div className="row g-3">
                                 <div className="col-12 col-sm-6">
                                     <small className="text-muted">
-                                        Username
+                                        {userState.loggedUser.name}
                                     </small>
-                                    <div>johndoe</div>
+                                    <div>{userState.loggedUser.email}</div>
                                 </div>
                                 <div className="col-12 col-sm-6">
                                     <small className="text-muted">Joined</small>
-                                    <div>Jan 2024</div>
+                                    <div>{joinedAt()}</div>
                                 </div>
                             </div>
                         </section>
@@ -171,27 +197,30 @@ export default function User() {
                             </section>
                             <div>
                                 <section className="mb-2 text-center">
-                            <div className="mb-3">
-                                <img
-                                    src={Avatar}
-                                    alt="Avatar"
-                                    className="rounded-circle"
-                                    width="96"
-                                    height="96"
-                                />
-                            </div>
-                            <h3 className="mb-1">John Doe</h3>
-                            <p className="text-muted mb-0">john@email.com</p>
-                        </section>
-                        <section className="text-center mt-2 mb-1">
-                            <button className="btn btn-outline-danger px-5">
-                                Log out
-                            </button>
-                        </section>
+                                    <div className="mb-3">
+                                        <img
+                                            src={Avatar}
+                                            alt="Avatar"
+                                            className="rounded-circle"
+                                            width="96"
+                                            height="96"
+                                        />
+                                    </div>
+                                    <h3 className="mb-1">{userState.loggedUser.name}</h3>
+                                    <p className="text-muted mb-0">
+                                        {userState.loggedUser.email}
+                                    </p>
+                                </section>
+                                <section className="text-center mt-2 mb-1">
+                                    <button
+                                        className="btn btn-outline-danger px-5"
+                                        onClick={handleLogoutUser}
+                                    >
+                                        Log out
+                                    </button>
+                                </section>
                             </div>
                         </div>
-
-                        
                     </Tab>
                     <Tab eventKey="statistics" title="Statistics">
                         <section className="mb-4 p-4 shadow-sm rounded bg-white">

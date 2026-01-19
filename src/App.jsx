@@ -4,7 +4,7 @@ import Page404 from "./pages/Page404/Page404";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import About from "./pages/About/About";
-import User from "./pages/User/User";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import RecoverPassword from "./pages/RecoverPassword/RecoverPassword";
 import { userInitialState, userReducer } from "./store/user/reducer";
@@ -44,8 +44,8 @@ const routes = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
             {
-                path: "/user",
-                element: <User />,
+                path: "/dashboard",
+                element: <Dashboard />,
             },
         ],
     },
