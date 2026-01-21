@@ -41,7 +41,6 @@ export default function Register() {
             return;
         }
 
-        console.log("register user");
         try {
             const response = await fetch("http://localhost:3000/api/user/", {
                 method: "POST",

@@ -40,8 +40,8 @@ export function AuthProvider({ children }) {
                     message: "Token is valid",
                     user: data,
                 });
-                userDispatch(actionResult);
 
+                userDispatch(actionResult);
                 setUser(data.user);
             } catch (err) {
                 console.warn("Auth check failed:", err);
@@ -55,11 +55,13 @@ export function AuthProvider({ children }) {
         initAuth();
     }, []);
 
+    //nush daca am nevoie...vedem
     const login = (token, userData) => {
         localStorage.setItem("auth_token", token);
         setUser(userData);
     };
 
+    //nush daca am nevoie aici
     const logout = () => {
         localStorage.removeItem("auth_token");
         setUser(null);

@@ -13,7 +13,7 @@ export default function Login() {
     };
     const [formData, setFormData] = useState(emptyForm);
     const navigate = useNavigate();
-    const { userDispatch } = useContext(UserContext);
+    const { userState, userDispatch } = useContext(UserContext);
     const [authError, setAuthError] = useState(null);
 
     const handleChange = (event) => {
@@ -38,7 +38,6 @@ export default function Login() {
                     body: JSON.stringify(formData),
                 },
             );
-
             const data = await response.json();
 
             if (response.ok) {

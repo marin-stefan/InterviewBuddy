@@ -4,7 +4,6 @@ import { UserContext } from "../store/user/context";
 
 export function ProtectedRoute() {
     const { userState, userDispatch } = useContext(UserContext);
-    console.log(userState)
     // Not logged in → redirect to login
     if (!userState.loggedUser) {
         return <Navigate to="/login" replace />;
