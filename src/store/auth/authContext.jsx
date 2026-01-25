@@ -14,38 +14,44 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const initAuth = async () => {
             try {
-                const token = localStorage.getItem("auth_token");
-
-                if (!token) {
-                    setIsLoading(false);
-                    return;
-                }
-
-                const response = await fetch(
-                    "http://localhost:3000/api/user/me",
-                    {
-                        method: "GET",
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
+                const localStoragedata = JSON.parse(
+                    localStorage.getItem("IBuddy"),
                 );
 
-                if (!response.ok) {
-                    throw new Error("Token invalid or expired");
+                if (localStoragedata) {
+                    const token = localStoragedata.auth_token;
+
+                    if (!token) {
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    const response = await fetch(
+                        "http://localhost:3000/api/user/me",
+                        {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        },
+                    );
+
+                    if (!response.ok) {
+                        throw new Error("Token invalid or expired");
+                    }
+
+                    const data = await response.json();
+                    const actionResult = loginUser({
+                        message: "Token is valid",
+                        user: data,
+                    });
+                    
+                    userDispatch(actionResult);
+                    setUser(data.user);
                 }
-
-                const data = await response.json();
-                const actionResult = loginUser({
-                    message: "Token is valid",
-                    user: data,
-                });
-
-                userDispatch(actionResult);
-                setUser(data.user);
             } catch (err) {
                 console.warn("Auth check failed:", err);
-                localStorage.removeItem("auth_token");
+                localStorage.removeItem("IBuddy");
                 setUser(null);
             } finally {
                 setIsLoading(false);
@@ -57,14 +63,15 @@ export function AuthProvider({ children }) {
 
     //nush daca am nevoie...vedem
     const login = (token, userData) => {
-        localStorage.setItem("auth_token", token);
-        setUser(userData);
+        // const localStorageData = {auth_token: data.token}
+        // localStorage.setItem("IBuddy", JSON.stringify(localStorageData));
+        // setUser(userData);
     };
 
     //nush daca am nevoie aici
     const logout = () => {
-        localStorage.removeItem("auth_token");
-        setUser(null);
+        // localStorage.removeItem("auth_token");
+        // setUser(null);
     };
 
     const value = {
