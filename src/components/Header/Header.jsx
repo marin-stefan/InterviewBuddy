@@ -1,7 +1,7 @@
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
-import LogoImage from "../../assets/interviewBuddy.png";
+import LogoImage from "../../assets/InterviewBuddy.png";
 import { useContext } from "react";
 import { UserContext } from "../../store/user/context";
 
