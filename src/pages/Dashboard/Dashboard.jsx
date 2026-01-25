@@ -3,7 +3,7 @@ import "./Dashboard.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
-import Avatar from "../../assets/avatar.png";
+import Avatar from "../../assets/Avatar.png";
 import Pagination from "react-bootstrap/Pagination";
 import ListGroup from "react-bootstrap/ListGroup";
 import { getQuestions } from "../../api/endpoint";
