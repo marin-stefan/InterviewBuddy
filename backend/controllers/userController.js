@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
-        
+
         //4. send token + info
         res.status(200).json({
             message: "Login successful",
@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
                 id: user._id,
                 email: user.email,
                 name: user.name,
-                createdAt: user.createdAt
+                createdAt: user.createdAt,
             },
             token: token,
         });
@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
 const updateUserById = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findByIdAndUpdate(id, req.body);
+        const user = await User.findById(id);
 
         //if we can't find in bd
         if (!user) {
@@ -80,8 +80,14 @@ const updateUserById = async (req, res) => {
                 .status(404)
                 .json({ message: `Can't find any user with  ID ${id}` });
         }
-        const updatedUser = await User.findById(id);
-        res.status(200).json(updatedUser);
+
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        await user.save();
+
+        res.status(200).json({ message: "Password updated", user });
     } catch (error) {
         res.status(500).json({ message: error.mesage });
     }

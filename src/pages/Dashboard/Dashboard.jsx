@@ -12,12 +12,16 @@ import { ListGroupItem } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { UserContext } from "../../store/user/context";
 import { logoutUser } from "../../store/user/actions";
+import { useNavigate } from "react-router-dom";
 
 export default function User() {
+    //tempo pagination
     const favoritesQuestions = getQuestions("favorites");
     const categories = getCategories();
 
+    const navigate = useNavigate();
     const { userState, userDispatch } = useContext(UserContext);
+
     const emptyForm = {
         currentPassword: "",
         newPassword: "",
@@ -30,6 +34,11 @@ export default function User() {
     };
     const [formData, setFormData] = useState(emptyForm);
     const [mobileFormData, setMobileFormData] = useState(mobileEmptyForm);
+
+    const [currentPasswordError, setCurrentPasswordError] = useState("");
+    const [currentMobilePasswordError, setCurrentMobilePasswordError] =
+        useState("");
+
     const [passwordError, setPasswordError] = useState("");
     const [mobilePasswordError, setMobilePasswordError] = useState("");
 
@@ -49,6 +58,7 @@ export default function User() {
         }
     };
 
+    // pentru versiunea mobile
     const handleMobileChange = (event) => {
         const { name, value } = event.target;
         setMobileFormData((prev) => ({
@@ -77,12 +87,57 @@ export default function User() {
             return;
         }
 
-        console.log("submit");
-        console.log(formData);
-        console.log(userState); //...hmmm nu am token aici dar am id user
-        // am form data aici tre sa send la api si wait for confirm.eventual punem modalul custom dupa confirm
-        // state nu tre sa modificam momentan, nu avem parola in state deloc
-        // facem try fetch "http://localhost:3000/api/user/" de tip pu pt ca e update
+        try {
+            const response = await fetch(
+                "http://localhost:3000/api/user/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: userState.loggedUser.email,
+                        password: formData.currentPassword,
+                    }),
+                },
+            );
+            const data = await response.json();
+
+            if (response.ok) {
+                try {
+                    const userId =
+                        userState.loggedUser.id || userState.loggedUser._id;
+                    const response = await fetch(
+                        `http://localhost:3000/api/user/${userId}`,
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                password: formData.newPassword,
+                            }),
+                        },
+                    );
+                    const data = response.json();
+
+                    if (response.ok) {
+                        setFormData(emptyForm);
+                        setPasswordError(null);
+                        alert("success");
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.error("Update failed:", data.message || data);
+                setCurrentMobilePasswordError(
+                    "Current password does not match",
+                );
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     const handleMobileSubmit = async (event) => {
@@ -97,14 +152,60 @@ export default function User() {
             return;
         }
 
-        console.log("submitmobile");
-        console.log(mobileFormData);
-        // am form data aici tre sa send la api si wait for confirm.eventual punem modalul custom dupa confirm
-        // state nu tre sa modificam momentan, nu avem parola in state deloc
-        // facem try fetch "http://localhost:3000/api/user/" de tip pu pt ca e update
+        try {
+            const response = await fetch(
+                "http://localhost:3000/api/user/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: userState.loggedUser.email,
+                        password: mobileFormData.currentMobilePassword,
+                    }),
+                },
+            );
+            const data = await response.json();
+
+            if (response.ok) {
+                try {
+                    const userId =
+                        userState.loggedUser.id || userState.loggedUser._id;
+
+                    const response = await fetch(
+                        `http://localhost:3000/api/user/${userId}`,
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                password: mobileFormData.newMobilePassword,
+                            }),
+                        },
+                    );
+
+                    if (response.ok) {
+                        setMobileFormData(emptyMobileForm);
+                        setMobilePasswordError(null);
+                        alert("success");
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.error("Update failed:", data.message || data);
+                setCurrentMobilePasswordError(
+                    "Current password does not match",
+                );
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
-    // for pagination
+    // for mock pagination
     let active = 2;
     let items = [];
     for (let number = 1; number <= 5; number++) {
@@ -117,12 +218,39 @@ export default function User() {
 
     function launchFavorites(event) {
         console.log(event.target);
+        // here we launch question mode with favorites list
     }
 
     function handleLogoutUser() {
-        localStorage.removeItem("auth_token");
+        localStorage.removeItem("IBuddy");
         const actionResult = logoutUser();
         userDispatch(actionResult);
+    }
+
+    async function handleDeleteUser() {
+        try {
+            const userId = userState.loggedUser.id || userState.loggedUser._id;
+
+            const response = await fetch(
+                `http://localhost:3000/api/user/${userId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            );
+
+            if (response.ok) {
+                localStorage.removeItem("IBuddy");
+                const actionResult = logoutUser();
+                userDispatch(actionResult);
+                navigate("/");
+                alert("user is deleted");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     function joinedAt() {
@@ -207,6 +335,11 @@ export default function User() {
                                             onChange={handleMobileChange}
                                             required
                                         />
+                                        {currentMobilePasswordError && (
+                                            <small className="text-danger">
+                                                {currentMobilePasswordError}
+                                            </small>
+                                        )}
                                     </div>
                                     <div className="mb-1">
                                         <label
@@ -259,6 +392,14 @@ export default function User() {
                                     onClick={handleLogoutUser}
                                 >
                                     Log out
+                                </button>
+                            </section>
+                            <section className="text-center mt-5 mb-1">
+                                <button
+                                    className="btn btn-danger px-5"
+                                    onClick={handleDeleteUser}
+                                >
+                                    DELETE USER
                                 </button>
                             </section>
                         </Accordion.Body>
@@ -374,6 +515,11 @@ export default function User() {
                                             onChange={handleChange}
                                             required
                                         />
+                                        {currentPasswordError && (
+                                            <small className="text-danger">
+                                                {currentPasswordError}
+                                            </small>
+                                        )}
                                     </div>
                                     <div className="mb-1">
                                         <label
@@ -450,6 +596,14 @@ export default function User() {
                                         onClick={handleLogoutUser}
                                     >
                                         Log out
+                                    </button>
+                                </section>
+                                <section className="text-center mt-5 mb-1">
+                                    <button
+                                        className="btn btn-danger px-5"
+                                        onClick={handleDeleteUser}
+                                    >
+                                        DELETE USER
                                     </button>
                                 </section>
                             </div>
