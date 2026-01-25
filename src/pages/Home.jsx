@@ -1,26 +1,26 @@
 import Layout from "../components/Layout/Layout";
 import Card from "react-bootstrap/Card";
 import Carousel from "react-bootstrap/Carousel";
-import Home1 from "../assets/home1.png";
-import Home2 from "../assets/home2.png";
-import Home3 from "../assets/home3.png";
+import Home1 from "../assets/home11.png";
+import Home2 from "../assets/home22.png";
+import Home3 from "../assets/home33.png";
 
 export default function Home() {
     const slides = [
         {
             src: Home1,
-            title: "titlu 1 orientativ",
-            desc: "blablaslide unau fdsv dfvdfv",
+            title: "Your Learning Hub",
+            desc: "Stats, favorites and progress",
         },
         {
             src: Home2,
-            title: "title 2 orientativ",
-            desc: "ndsclsd sdvsdks sdvsd dfvdfgf",
+            title: "Explore Question Libraries",
+            desc: "Practice across many technologies",
         },
         {
             src: Home3,
-            title: "title 3 orientativ",
-            desc: "eeeovov sdvsdks sdvsd dfvdfgf",
+            title: "Begin Your Journey",
+            desc: "Sign up or browse freely",
         },
     ];
 
