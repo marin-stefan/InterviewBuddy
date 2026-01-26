@@ -111,6 +111,30 @@ const deleteUserById = async (req, res) => {
     }
 };
 
+const getFavoritesQuestionsByUserId = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    console.log(user.favoriteQuestions);
+    const favoriteQuestions = user.favoriteQuestions;
+
+    // res.send(200).json(favoriteQuestions);
+};
+
+const getUserAnswersByUserId = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    console.log(user.answers);
+    console.log(user.correctAnswerCount);
+    const userStatistics = {
+        answers: user.answers,
+        correctAnswerCount: user.correctAnswerCount,
+    };
+
+    // res.send(200).json(userStatistics);
+};
+
 module.exports = {
     createUser,
     getCurrentUser,
@@ -118,4 +142,6 @@ module.exports = {
     updateUserById,
     getUserById,
     deleteUserById,
+    getFavoritesQuestionsByUserId,
+    getUserAnswersByUserId
 };
