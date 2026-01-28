@@ -84,10 +84,22 @@ const updateUserById = async (req, res) => {
         if (req.body.password) {
             user.password = req.body.password;
         }
+        if (req.body.answers) {
+            user.answers = req.body.answers;
+        }
+        if (req.body.totalQuestions) {
+            user.totalQuestions = req.body.totalQuestions;
+        }
+        if (req.body.correctAnswerCount) {
+            user.correctAnswerCount = req.body.correctAnswerCount;
+        }
+        if (req.body.favoriteQuestions) {
+            user.favoriteQuestions = req.body.favoriteQuestions;
+        }
 
         await user.save();
 
-        res.status(200).json({ message: "Password updated", user });
+        res.status(200).json({ message: "User info updated", user });
     } catch (error) {
         res.status(500).json({ message: error.mesage });
     }
@@ -115,7 +127,7 @@ const getFavoritesQuestionsByUserId = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
 
-    console.log(user.favoriteQuestions);
+    // console.log(user.favoriteQuestions);
     const favoriteQuestions = user.favoriteQuestions;
 
     // res.send(200).json(favoriteQuestions);
@@ -125,8 +137,8 @@ const getUserAnswersByUserId = async (req, res) => {
     const { id } = req.params;
     const user = await User.findById(id);
 
-    console.log(user.answers);
-    console.log(user.correctAnswerCount);
+    // console.log(user.answers);
+    // console.log(user.correctAnswerCount);
     const userStatistics = {
         answers: user.answers,
         correctAnswerCount: user.correctAnswerCount,

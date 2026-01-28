@@ -18,6 +18,11 @@ const userSchema = mongoose.Schema(
             required: [true, "Password is required"],
             select: false,
         },
+        totalQuestions: {
+            type: Number,
+            required: [true, "total number of questions is required"],
+            default: 0,
+        },
         answers: {
             type: [Number],
             enum: [0, 1],
@@ -30,7 +35,7 @@ const userSchema = mongoose.Schema(
         favoriteQuestions: {
             type: [
                 {
-                    questionId: {
+                    _id: {
                         type: String,
                         required: true,
                     },

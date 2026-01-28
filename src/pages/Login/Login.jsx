@@ -41,7 +41,7 @@ export default function Login() {
             const data = await response.json();
 
             if (response.ok) {
-                const localStorageData = {auth_token: data.token}
+                const localStorageData = {auth_token: data.token, userId: data.user.id}
                 localStorage.setItem("IBuddy", JSON.stringify(localStorageData));
                 const actionResult = loginUser(data);
                 userDispatch(actionResult);

@@ -53,7 +53,7 @@ export default function Register() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("User registered:", data);
+                // console.log("User registered:", data);
                 setFormData(emptyForm);
                 setShowModal(true);
                 // You can redirect or clear form here

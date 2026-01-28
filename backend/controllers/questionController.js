@@ -22,8 +22,8 @@ const getQuestionById = async (req, res) => {
 
 const getQuestions = async (req, res) => {
     try {
-        const { category, difficulty } = req.query;
-        const questions = await Question.find({ category, difficulty });
+        const { category } = req.query;
+        const questions = await Question.find({ category });
         res.status(200).json(questions);
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch questions" });
